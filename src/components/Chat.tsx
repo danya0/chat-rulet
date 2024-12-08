@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Button } from './ui/Button'; // Assuming the Button component is in the same directory
 
 interface Message {
   id: number;
@@ -7,11 +8,7 @@ interface Message {
   timestamp: string;
 }
 
-interface ChatProps {
-  isDark: boolean;
-}
-
-const Chat: React.FC<ChatProps> = ({ isDark }) => {
+const Chat: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
 
@@ -52,7 +49,7 @@ const Chat: React.FC<ChatProps> = ({ isDark }) => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-gray-800 rounded-lg shadow-md transition-colors">
+    <div className="flex flex-col h-full bg-white dark:bg-gray-800 rounded-lg shadow-md transition-colors overflow-hidden">
       <div className="flex-1 p-4 overflow-y-auto">
         <div className="space-y-4">
           {messages.map((message) => (
@@ -89,12 +86,9 @@ const Chat: React.FC<ChatProps> = ({ isDark }) => {
             className="flex-1 p-2 border dark:border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 
                      bg-white dark:bg-gray-700 text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
           />
-          <button 
-            onClick={handleSendMessage}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-          >
+          <Button onClick={handleSendMessage}>
             Отправить
-          </button>
+          </Button>
         </div>
       </div>
     </div>
