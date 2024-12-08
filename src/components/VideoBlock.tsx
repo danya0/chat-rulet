@@ -1,10 +1,32 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Button } from './ui/Button'
 import { IconButton } from './ui/IconButton'
 
 export const VideoBlock: React.FC = () => {
-  const [isVideoEnabled, setIsVideoEnabled] = useState(true)
-  const [isAudioEnabled, setIsAudioEnabled] = useState(true)
+  const [isVideoEnabled, setIsVideoEnabled] = useState(false)
+  const [isAudioEnabled, setIsAudioEnabled] = useState(false)
+  const [stream, setStream] = useState<MediaStream | null>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const fn = async () => {
+      if (isVideoEnabled) {
+        // enable stream
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+        })
+        setStream(stream)
+
+        if (videoRef.current) videoRef.current.srcObject = stream
+      } else {
+        // disable stream
+        const tracks = stream?.getTracks()
+        if (tracks) tracks.forEach((track) => track.stop())
+      }
+    }
+
+    fn()
+  }, [isVideoEnabled])
 
   return (
     <div className="w-[40%] p-4 gap-y-4 flex flex-col">
@@ -16,8 +38,15 @@ export const VideoBlock: React.FC = () => {
           Видео собеседника
         </span>
       </div>
-      <div className="grow bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md flex items-center justify-center relative">
+      <div className="grow bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md flex items-center justify-center relative overflow-hidden">
         <span className="text-gray-500 dark:text-gray-400">Мое видео</span>
+
+        <video
+          ref={videoRef}
+          autoPlay={true}
+          muted={true}
+          className="bg-black absolute left-0 w-full top-0 h-full"
+        />
 
         {/* Controls */}
         <div className="absolute bottom-4 flex gap-x-2">
