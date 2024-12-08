@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import Chat from './components/Chat'
 import ThemeToggle from './components/ThemeToggle'
 import { VideoBlock } from './components/VideoBlock'
@@ -30,7 +30,7 @@ function App() {
 
       {/* Chat container */}
       <div className="flex-1 p-4">
-        <Chat isDark={isDark} />
+        <Chat />
       </div>
     </div>
   )
