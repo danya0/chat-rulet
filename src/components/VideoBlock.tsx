@@ -13,7 +13,7 @@ export const VideoBlock: React.FC = () => {
       if (isVideoEnabled) {
         // enable stream
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
+          video: {},
         })
         setStream(stream)
 
@@ -45,7 +45,7 @@ export const VideoBlock: React.FC = () => {
           ref={videoRef}
           autoPlay={true}
           muted={true}
-          className="bg-black absolute left-0 w-full top-0 h-full"
+          className="bg-black absolute left-0 w-full top-0 h-full -scale-x-100"
         />
 
         {/* Controls */}
